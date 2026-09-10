@@ -1,0 +1,4 @@
+@font-face{font-family:'Bellefair';font-style:normal;font-weight:400;src:url(Bellefair-hebrew.woff2) format('woff2');unicode-range:U+0590-05FF,U+200C-2010,U+20AA,U+25CC,U+FB1D-FB4F}
+@font-face{font-family:'Bellefair';font-style:normal;font-weight:400;src:url(Bellefair-latin.woff2) format('woff2')}
+@font-face{font-family:'Heebo';font-style:normal;font-weight:100 900;src:url(Heebo-hebrew.woff2) format('woff2');unicode-range:U+0590-05FF,U+200C-2010,U+20AA,U+25CC,U+FB1D-FB4F}
+@font-face{font-family:'Heebo';font-style:normal;font-weight:100 900;src:url(Heebo-latin.woff2) format('woff2')}

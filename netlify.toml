@@ -1,0 +1,6 @@
+[build]
+  publish = "dist"
+  command = ""
+
+[build.environment]
+  # no build step: dist/ is committed ready to publish
