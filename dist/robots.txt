@@ -1,5 +1,4 @@
 User-agent: *
 Allow: /
-Disallow: /assets/og-image.png
 
 Sitemap: https://ri-law.co.il/sitemap.xml

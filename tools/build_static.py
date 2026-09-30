@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build the Cloudflare Pages deployment folder (dist/) from the static source in /root/site.
+"""Build the Netlify deployment folder (dist/) from the static source in site/.
 - absolute, extension-less internal links (/about, /articles/x, /)
 - images served from /assets/img (no dependency on the old WordPress server)
 - canonical / og / JSON-LD URLs without .html
@@ -91,6 +91,38 @@ def rewrite(doc, depth):
     return doc
 
 
+LASTMOD = str(ROOT / 'tools' / 'lastmod.json')
+
+
+def page_dates():
+    """Articles: dateModified from their JSON-LD. Other pages: the date their <main> content
+    last changed, tracked by hash in tools/lastmod.json (commit that file with the build)."""
+    import hashlib
+    today = datetime.date.today().isoformat()
+    try:
+        known = json.load(open(LASTMOD, encoding='utf-8'))
+    except FileNotFoundError:
+        known = {}
+    dates = {}
+    for n in ARTICLES:
+        doc = open(f'{SRC}/articles/{n}.html', encoding='utf-8').read()
+        m = re.search(r'"dateModified": "(\d{4}-\d{2}-\d{2})"', doc)
+        dates['articles/' + n] = m.group(1) if m else today
+    for n in PAGES:
+        doc = open(f'{SRC}/{n}.html', encoding='utf-8').read()
+        m = re.search(r'<main\b.*</main>', doc, re.S)
+        h = hashlib.sha1((m.group(0) if m else doc).encode('utf-8')).hexdigest()[:12]
+        if n in known and known[n]['hash'] == h:
+            dates[n] = known[n]['date']
+        else:
+            dates[n] = today
+            known[n] = {'hash': h, 'date': today}
+    for n in list(known):
+        if n not in PAGES: del known[n]
+    open(LASTMOD, 'w', encoding='utf-8').write(json.dumps(dict(sorted(known.items())), ensure_ascii=False, indent=1) + '\n')
+    return dates
+
+
 def main():
     if os.path.exists(DIST): shutil.rmtree(DIST)
     os.makedirs(DIST + '/articles'); os.makedirs(DIST + '/assets/img'); os.makedirs(DIST + '/css'); os.makedirs(DIST + '/js')
@@ -118,16 +150,16 @@ def main():
         doc = open(f'{SRC}/articles/{name}.html', encoding='utf-8').read()
         doc = rewrite(doc, 1)
         open(f'{DIST}/articles/{name}.html', 'w', encoding='utf-8').write(doc)
-    # sitemap
-    today = datetime.date.today().isoformat()
-    urls = [(SITE + '/articles/') if n == 'articles' else SITE + clean_path(n) for n in PAGES if n not in ('404',)] + [f'{SITE}/articles/{n}' for n in ARTICLES]
+    # sitemap: lastmod is the real date of the last content change
+    urls = [((SITE + '/articles/') if n == 'articles' else SITE + clean_path(n), n) for n in PAGES if n not in ('404',)] + [(f'{SITE}/articles/{n}', 'articles/' + n) for n in ARTICLES]
+    dates = page_dates()
     sm = ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
-    for u in urls:
+    for u, n in urls:
         pr = '1.0' if u == SITE + '/' else ('0.8' if '/articles/' not in u else '0.6')
-        sm.append(f'  <url><loc>{u}</loc><lastmod>{today}</lastmod><priority>{pr}</priority></url>')
+        sm.append(f'  <url><loc>{u}</loc><lastmod>{dates[n]}</lastmod><priority>{pr}</priority></url>')
     sm.append('</urlset>')
     open(DIST + '/sitemap.xml', 'w', encoding='utf-8').write('\n'.join(sm) + '\n')
-    open(DIST + '/robots.txt', 'w', encoding='utf-8').write(f'User-agent: *\nAllow: /\nDisallow: /assets/og-image.png\n\nSitemap: {SITE}/sitemap.xml\n')
+    open(DIST + '/robots.txt', 'w', encoding='utf-8').write(f'User-agent: *\nAllow: /\n\nSitemap: {SITE}/sitemap.xml\n')
     # redirects (old WordPress / Elementor addresses -> new paths)
     old = {
         'הצהרת-נגישות': '/accessibility', 'צור-קשר': '/contact', 'הצוות': '/team', 'אודות': '/about', 'מאמרים': '/articles/',
