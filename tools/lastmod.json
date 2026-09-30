@@ -15,6 +15,10 @@
   "hash": "271475181cc7",
   "date": "2026-09-10"
  },
+ "ariel-samaria": {
+  "hash": "4150bc29b34c",
+  "date": "2026-09-30"
+ },
  "articles": {
   "hash": "1a1a6595bf6b",
   "date": "2026-09-10"
@@ -44,8 +48,8 @@
   "date": "2026-09-10"
  },
  "idf-disabled": {
-  "hash": "764cf788d22d",
-  "date": "2026-09-10"
+  "hash": "48ddf177a865",
+  "date": "2026-09-30"
  },
  "index": {
   "hash": "7f4a37bd1811",
