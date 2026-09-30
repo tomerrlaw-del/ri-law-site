@@ -66,6 +66,89 @@
     document.querySelectorAll('.reveal').forEach(function(el){el.classList.add('visible');});
   }
 
+  // Analytics (GA4) - loads only after explicit consent (Privacy Protection Law, amendment 13).
+  // Empty GA_ID = no analytics and no banner.
+  var GA_ID='';
+  var CONSENT_KEY='ri_consent',CONSENT_DAYS=365;
+  var gaLoaded=false;
+  function readConsent(){
+    try{
+      var v=(localStorage.getItem(CONSENT_KEY)||'').split('|');
+      if((v[0]==='yes'||v[0]==='no')&&Date.now()-Number(v[1]||0)<CONSENT_DAYS*864e5){return v[0];}
+    }catch(e){}
+    return null;
+  }
+  function saveConsent(v){try{localStorage.setItem(CONSENT_KEY,v+'|'+Date.now());}catch(e){}}
+  function loadGA(){
+    if(gaLoaded||!GA_ID)return;
+    gaLoaded=true;
+    window.dataLayer=window.dataLayer||[];
+    window.gtag=function(){window.dataLayer.push(arguments);};
+    window.gtag('js',new Date());
+    window.gtag('config',GA_ID);
+    var sc=document.createElement('script');
+    sc.async=true;sc.src='https://www.googletagmanager.com/gtag/js?id='+encodeURIComponent(GA_ID);
+    document.head.appendChild(sc);
+  }
+  function clearGACookies(){
+    var host=location.hostname.replace(/^www\./,'');
+    document.cookie.split(';').forEach(function(c){
+      var n=c.split('=')[0].trim();
+      if(n==='_ga'||n.indexOf('_ga_')===0||n==='_gid'){
+        ['',';domain='+host,';domain=.'+host].forEach(function(d){
+          document.cookie=n+'=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/'+d;
+        });
+      }
+    });
+  }
+  function track(name,params){
+    if(gaLoaded&&window.gtag){window.gtag('event',name,params||{});}
+  }
+  function showBanner(){
+    if(!GA_ID||document.getElementById('consent-banner'))return;
+    var b=document.createElement('div');
+    b.id='consent-banner';b.className='consent-banner';
+    b.setAttribute('role','region');b.setAttribute('aria-label','הסכמה לעוגיות');
+    var privacy=location.pathname.indexOf('/articles/')>-1?'../privacy.html':'privacy.html';
+    if(!/\.html$/.test(location.pathname)){privacy='/privacy';}
+    b.innerHTML='<p>נשמח למדוד את השימוש באתר באמצעות עוגיות של גוגל אנליטיקס, כדי לדעת אילו עמודים עוזרים לגולשים. המדידה תופעל רק אם תאשרו, ואפשר לשנות את הבחירה בכל עת. <a href="'+privacy+'">מדיניות הפרטיות</a></p>'+
+      '<div class="consent-actions"><button type="button" class="consent-btn" data-consent="yes">אישור</button><button type="button" class="consent-btn" data-consent="no">דחייה</button></div>';
+    document.body.appendChild(b);
+    document.body.classList.add('consent-open');
+    function fit(){document.body.style.setProperty('--consent-h',b.offsetHeight+'px');}
+    fit();window.addEventListener('resize',fit);
+    b.addEventListener('click',function(e){
+      var v=e.target&&e.target.getAttribute&&e.target.getAttribute('data-consent');
+      if(!v)return;
+      saveConsent(v);
+      if(v==='yes'){loadGA();}else{clearGACookies();}
+      window.removeEventListener('resize',fit);
+      b.parentNode.removeChild(b);
+      document.body.classList.remove('consent-open');
+      document.body.style.removeProperty('--consent-h');
+    });
+  }
+  var consent=readConsent();
+  if(consent==='yes'){loadGA();}else if(consent===null){showBanner();}
+  // privacy page: change the choice
+  document.querySelectorAll('[data-consent-reset]').forEach(function(btn){
+    if(!GA_ID){btn.hidden=true;return;}
+    btn.addEventListener('click',function(){
+      try{localStorage.removeItem(CONSENT_KEY);}catch(e){}
+      clearGACookies();
+      showBanner();
+      var first=document.querySelector('#consent-banner .consent-btn');if(first){first.focus();}
+    });
+  });
+  // conversion events: phone and WhatsApp clicks anywhere on the site
+  document.addEventListener('click',function(e){
+    var a=e.target&&e.target.closest?e.target.closest('a[href]'):null;
+    if(!a)return;
+    var href=a.getAttribute('href')||'';
+    if(href.indexOf('tel:')===0){track('phone_click',{link_url:href});}
+    else if(href.indexOf('wa.me/')>-1){track('whatsapp_click',{link_url:href.split('?')[0]});}
+  });
+
   // Israeli phone: 05X/07X (10 digits) or area codes 02/03/04/08/09 (9 digits); +972 accepted
   function phoneValid(phone){
     var digits=String(phone).replace(/\D/g,'');
@@ -111,6 +194,7 @@
       var waUrl='https://wa.me/972545333897?text='+encodeURIComponent(text);
       function whatsappHandoff(){
         if(status){status.className='form-status ok';status.textContent='נפתח עבורכם חלון וואטסאפ להשלמת הפנייה.';}
+        track('whatsapp_click',{link_url:'https://wa.me/972545333897',source:'contact_form'});
         window.open(waUrl,'_blank','noopener');
         form.reset();
       }
@@ -133,6 +217,7 @@
             if(btn){btn.disabled=false;}
             if(r.ok){
               if(status){status.className='form-status ok';status.textContent='הפנייה נשלחה למשרד. נחזור אליכם בשעות הפעילות.';}
+              track('form_submit',{form_name:'contact'});
               form.reset();
             }else{whatsappHandoff();}
           }).catch(function(){if(btn){btn.disabled=false;}whatsappHandoff();});
@@ -152,6 +237,7 @@
         if(btn){btn.disabled=false;}
         if(j&&j.success){
           if(status){status.className='form-status ok';status.textContent='הפנייה נשלחה למשרד. נחזור אליכם בשעות הפעילות.';}
+              track('form_submit',{form_name:'contact'});
           form.reset();
         }else{
           whatsappHandoff();

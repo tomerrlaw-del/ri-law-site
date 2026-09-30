@@ -194,8 +194,12 @@ def main():
     for n in ARTICLES:
         lines.append(f'/articles/{n}.html /articles/{n} 301!')
     open(DIST + '/_redirects', 'w', encoding='utf-8').write('\n'.join(lines) + '\n')
-    csp = ("default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; "
-           "font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data:; connect-src 'self' https://api.web3forms.com; "
+    # Google Analytics 4 (loaded by js/main.js only after cookie consent)
+    ga = {'script': 'https://*.googletagmanager.com',
+          'img': 'https://*.google-analytics.com https://*.googletagmanager.com',
+          'connect': 'https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com'}
+    csp = (f"default-src 'self'; script-src 'self' 'unsafe-inline' {ga['script']}; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; "
+           f"font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: {ga['img']}; connect-src 'self' https://api.web3forms.com {ga['connect']}; "
            "frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://wa.me https://api.web3forms.com; object-src 'none'; upgrade-insecure-requests")
     headers = f"""/*
   X-Content-Type-Options: nosniff

@@ -315,3 +315,13 @@ body.menu-open .float-btns,body.menu-open .acc-widget{display:none}
 @media (max-width:600px){.law-table{font-size:.88rem}.law-table th,.law-table td{padding:8px 8px}}
 .link-list{list-style:none;padding:0;margin:14px 0 24px}
 .link-list li{padding:8px 0;border-bottom:1px solid var(--line)}
+.consent-banner{position:fixed;left:0;right:0;bottom:0;z-index:1500;background:var(--navy-deep);color:#fff;border-top:1px solid rgba(203,181,138,.55);padding:16px 20px;display:flex;gap:16px 24px;align-items:center;justify-content:center;flex-wrap:wrap;box-shadow:0 -6px 20px rgba(0,0,0,.2)}
+.consent-banner p{margin:0;max-width:760px;font-size:.93rem;line-height:1.6}
+.consent-banner a{color:var(--gold-2);text-decoration:underline}
+.consent-actions{display:flex;gap:12px}
+.consent-btn{min-width:110px;padding:10px 22px;font:inherit;font-weight:600;font-size:.95rem;cursor:pointer;background:transparent;color:#fff;border:1px solid rgba(255,255,255,.7);border-radius:2px}
+.consent-btn:hover,.consent-btn:focus-visible{background:rgba(255,255,255,.12)}
+body.consent-open .float-btns{bottom:calc(var(--consent-h,0px) + 16px)}
+body.consent-open .site-footer{padding-bottom:var(--consent-h,0px)}
+@media (max-width:600px){.consent-banner{padding:14px 16px}.consent-actions{width:100%}.consent-btn{flex:1}}
+@media (max-width:480px){body.consent-open .acc-widget{bottom:calc(var(--consent-h,0px) + 16px)}}
