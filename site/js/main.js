@@ -68,7 +68,7 @@
 
   // Analytics (GA4) - loads only after explicit consent (Privacy Protection Law, amendment 13).
   // Empty GA_ID = no analytics and no banner.
-  var GA_ID='';
+  var GA_ID='G-6LR256K0T0';
   var CONSENT_KEY='ri_consent',CONSENT_DAYS=365;
   var gaLoaded=false;
   function readConsent(){
