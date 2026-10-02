@@ -32,12 +32,12 @@
   "date": "2026-09-10"
  },
  "corporate-law": {
-  "hash": "e56ced4cd2f2",
-  "date": "2026-09-10"
+  "hash": "ac5eb7256130",
+  "date": "2026-10-02"
  },
  "debt-collection": {
-  "hash": "b12c413140a7",
-  "date": "2026-09-10"
+  "hash": "a4bf78411a0f",
+  "date": "2026-10-02"
  },
  "defamation": {
   "hash": "35f9ccfa8e93",
@@ -48,8 +48,8 @@
   "date": "2026-09-10"
  },
  "idf-disabled": {
-  "hash": "48ddf177a865",
-  "date": "2026-09-30"
+  "hash": "51e4a4a1d05e",
+  "date": "2026-10-02"
  },
  "index": {
   "hash": "7f4a37bd1811",
@@ -84,7 +84,7 @@
   "date": "2026-09-10"
  },
  "wills-poa": {
-  "hash": "5387ecd353fc",
-  "date": "2026-09-10"
+  "hash": "abe23732a6f2",
+  "date": "2026-10-02"
  }
 }
