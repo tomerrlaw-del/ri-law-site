@@ -82,9 +82,9 @@ def rewrite(doc, depth):
         doc = doc.replace('<meta property="og:site_name" content="רישטלר - עורכי דין">',
             '<meta property="og:site_name" content="רישטלר - עורכי דין">\n<meta property="og:image" content="https://ri-law.co.il/assets/og-image.png">\n<meta property="og:image:width" content="1200">\n<meta property="og:image:height" content="630">')
         doc = doc.replace('<meta name="twitter:card" content="summary">', '<meta name="twitter:card" content="summary_large_image">\n<meta name="twitter:image" content="https://ri-law.co.il/assets/og-image.png">')
-    # favicons like the theme
+    # favicons: R monogram (favicon.ico, favicon.svg, PNG sizes in /assets)
     doc = doc.replace('<link rel="icon" href="/favicon.svg" type="image/svg+xml">',
-        '<link rel="icon" href="/favicon.svg" type="image/svg+xml">\n<link rel="icon" href="/assets/favicon-32.png" type="image/png" sizes="32x32">\n<link rel="apple-touch-icon" href="/assets/favicon-180.png">')
+        '<link rel="icon" href="/favicon.ico" sizes="32x32">\n<link rel="icon" href="/favicon.svg" type="image/svg+xml">\n<link rel="icon" href="/assets/favicon-48.png" type="image/png" sizes="48x48">\n<link rel="apple-touch-icon" href="/assets/favicon-180.png">')
     # cache busting: css/js are cached for a day, so every deploy must change their address
     for path, ver in ASSET_VER.items():
         doc = doc.replace(f'"{path}"', f'"{path}?v={ver}"')
@@ -132,6 +132,7 @@ def main():
     for old, (local, newname) in IMG_MAP.items():
         shutil.copy(os.path.join(SRC, local), DIST + '/assets/img/' + newname)
     shutil.copy(SRC + '/favicon.svg', DIST + '/favicon.svg')
+    shutil.copy(SRC + '/favicon.ico', DIST + '/favicon.ico')
     shutil.copy(SRC + '/css/style.css', DIST + '/css/style.css')
     a11y = open(SRC + '/js/accessibility.js', encoding='utf-8').read()
     a11y = a11y.replace("(location.pathname.indexOf('/articles/')>-1?'../':'')+'accessibility.html'", "'/accessibility'").replace("'/accessibility/'", "'/accessibility'")
