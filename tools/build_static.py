@@ -181,6 +181,12 @@ def main():
               '/wp-sitemap.xml /sitemap.xml 301', '/wp-sitemap-posts-page-1.xml /sitemap.xml 301', '/sitemap_index.xml /sitemap.xml 301',
               '/category/* /articles/ 301', '/author/* /about 301', '/feed /  301', '/feed/* / 301', '/comments/feed / 301',
               '/wp-admin/* / 301', '/wp-login.php / 301', '/wp-json/* / 301', '/xmlrpc.php / 301',
+              # old WordPress query addresses: forced, because / is a real file
+              '/  p=:id  /articles/  301!', '/  page_id=:id  /  301!', '/  s=:q  /articles/  301!', '/  cat=:id  /articles/  301!',
+              '/tag/* /articles/ 301', '/page/* /articles/ 301', '/date/* /articles/ 301',
+              '/:section/feed / 301', '/:section/feed/ / 301',
+              '/wp-content/* / 301', '/wp-includes/* / 301', '/elementor/* / 301',
+              '/blog /articles/ 301', '/blog/* /articles/ 301', '/attachment/* / 301',
               '/index.html / 301!', '/civil-procedure-guide /articles/civil-procedure-guide 301',
               '/minority-oppression /articles/minority-oppression 301', '/administrative-petition /articles/administrative-petition 301']
     # old WordPress addresses with a trailing slash (the indexed form) -> clean paths

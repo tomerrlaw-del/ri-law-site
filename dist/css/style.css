@@ -179,6 +179,7 @@ h1,h2,h3,h4{font-weight:400;font-synthesis:none}
 .c-info .ci{display:none}
 .c-info h3{font-size:1rem;font-weight:600;color:var(--navy);margin-bottom:2px}
 .c-info p,.c-info a{color:var(--muted)}
+.c-info .c-line+p{margin-top:16px}
 .form-card{background:#fff;border:1px solid var(--line);padding:34px}
 .form-card h3{font-family:var(--serif);color:var(--navy);font-size:1.6rem;margin-bottom:6px}
 .form-card .form-sub{color:var(--muted);margin-bottom:24px;font-size:.97rem}
