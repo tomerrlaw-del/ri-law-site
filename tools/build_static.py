@@ -20,6 +20,7 @@ IMG_MAP = {
     '/wp-content/uploads/2023/09/Depositphotos_654775016_XL-scaled.jpg': ('img/new/flag-sunset.jpg', 'flag-sunset.jpg'),
     '/wp-content/uploads/2025/07/Depositphotos_325838954_XL-scaled.jpg': ('img/new/boardroom-white.jpg', 'boardroom.jpg'),
     '/wp-content/uploads/2026/09/hero-tower.jpg': ('img/hero/final/hero-tower.jpg', 'hero-tower.jpg'),
+    '/wp-content/uploads/2026/09/hero-tower-960.jpg': ('img/hero/final/hero-tower-960.jpg', 'hero-tower-960.jpg'),
 }
 ALT_FIX = {
     'flag-sunset.jpg': 'דגל ישראל בשקיעה',
@@ -64,7 +65,7 @@ def rewrite(doc, depth):
             return f'{attr}={q}{new}{anchor}{q}'
         if u in ('css/style.css', 'js/main.js', 'js/accessibility.js', 'favicon.svg'):
             return f'{attr}={q}/{u}{q}'
-        if u.startswith('assets/'):
+        if u.startswith('assets/') or u.startswith('fonts/'):
             return f'{attr}={q}/{u}{q}'
         return m.group(0)
     doc = re.sub(r'\b(href|src)=(")([^"]*)"', lambda m: repl_href(m).rstrip('"') + '"' if False else repl_href(m), doc)
@@ -131,6 +132,7 @@ def main():
         shutil.copy(os.path.join(SRC, 'assets', f), DIST + '/assets/' + f)
     for old, (local, newname) in IMG_MAP.items():
         shutil.copy(os.path.join(SRC, local), DIST + '/assets/img/' + newname)
+    shutil.copytree(SRC + '/fonts', DIST + '/fonts')
     shutil.copy(SRC + '/favicon.svg', DIST + '/favicon.svg')
     shutil.copy(SRC + '/favicon.ico', DIST + '/favicon.ico')
     shutil.copy(SRC + '/css/style.css', DIST + '/css/style.css')
@@ -199,8 +201,8 @@ def main():
     ga = {'script': 'https://*.googletagmanager.com',
           'img': 'https://*.google-analytics.com https://*.googletagmanager.com',
           'connect': 'https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com'}
-    csp = (f"default-src 'self'; script-src 'self' 'unsafe-inline' {ga['script']}; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; "
-           f"font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: {ga['img']}; connect-src 'self' https://api.web3forms.com {ga['connect']}; "
+    csp = (f"default-src 'self'; script-src 'self' 'unsafe-inline' {ga['script']}; style-src 'self' 'unsafe-inline'; "
+           f"font-src 'self' data:; img-src 'self' data: {ga['img']}; connect-src 'self' https://api.web3forms.com {ga['connect']}; "
            "frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://wa.me https://api.web3forms.com; object-src 'none'; upgrade-insecure-requests")
     headers = f"""/*
   X-Content-Type-Options: nosniff
@@ -211,6 +213,9 @@ def main():
   Content-Security-Policy: {csp}
 
 /assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/fonts/*
   Cache-Control: public, max-age=31536000, immutable
 
 /css/*

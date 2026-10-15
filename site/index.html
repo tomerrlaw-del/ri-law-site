@@ -21,9 +21,9 @@
 <meta http-equiv="X-Content-Type-Options" content="nosniff">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&family=Bellefair&display=swap" rel="stylesheet">
+<link rel="preload" href="fonts/Bellefair-hebrew.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/Heebo-hebrew.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" as="image" href="/wp-content/uploads/2026/09/hero-tower.jpg" imagesrcset="/wp-content/uploads/2026/09/hero-tower-960.jpg 960w, /wp-content/uploads/2026/09/hero-tower.jpg 1920w" imagesizes="(max-width:768px) 100vw, 114vw" fetchpriority="high">
 <link rel="stylesheet" href="css/style.css">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "LegalService", "@id": "https://ri-law.co.il/#organization", "name": "רישטלר - עורכי דין", "alternateName": "Rishtler Law Firm", "url": "https://ri-law.co.il/", "logo": "https://ri-law.co.il/assets/logo.png", "image": "https://ri-law.co.il/assets/logo.png", "description": "משרד עורכי דין העוסק בליטיגציה וסכסוכים אזרחיים, ליווי עסקי ומסחרי, משפט מנהלי וייצוג מול רשויות וזכויות נכי צה\"ל, לצד נדל\"ן ומקרקעין וצוואות וייפוי כוח מתמשך.", "telephone": "+972-54-5333897", "email": "tomer@ri-law.co.il", "sameAs": ["https://maps.google.com/?cid=8447500044445886263"], "hasMap": "https://maps.google.com/?cid=8447500044445886263", "address": {"@type": "PostalAddress", "streetAddress": "עיר דוד 12", "addressLocality": "אריאל", "addressCountry": "IL"}, "geo": {"@type": "GeoCoordinates", "latitude": 32.1046, "longitude": 35.1745}, "openingHoursSpecification": [{"@type": "OpeningHoursSpecification", "dayOfWeek": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday"], "opens": "09:00", "closes": "19:00"}], "areaServed": {"@type": "Country", "name": "Israel"}, "knowsAbout": ["ליטיגציה וסכסוכים אזרחיים", "ליווי עסקי ומסחרי", "משפט מנהלי וייצוג מול רשויות", "נכי צה\"ל", "נדל\"ן ומקרקעין", "צוואות, עיזבונות וייפוי כוח מתמשך", "דיני עבודה", "לשון הרע", "גבייה והוצאה לפועל", "רישוי קבלנים"], "founder": {"@type": "Person", "name": "עו\"ד תומר רישטלר"}}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "מה כוללת שיחת ההיכרות הראשונה?", "acceptedAnswer": {"@type": "Answer", "text": "בשיחה הראשונה מתבררים הצורך והמסמכים, והלקוח מקבל הערכה ראשונית של המצב המשפטי ושל הצעדים האפשריים."}}, {"@type": "Question", "name": "באילו אזורים בארץ אתם מייצגים?", "acceptedAnswer": {"@type": "Answer", "text": "המשרד שוכן באריאל ומייצג לקוחות בכל רחבי הארץ, בכל הערכאות. חלק ניכר מהפגישות והייעוץ מתקיים גם בשיחות וידאו."}}]}</script>
@@ -77,7 +77,7 @@
 <main id="main" tabindex="-1">
 
 <section class="hero">
-  <div class="hero-bg"><img src="/wp-content/uploads/2026/09/hero-tower.jpg" alt="" width="1920" height="1280" loading="eager" fetchpriority="high"></div>
+  <div class="hero-bg"><img src="/wp-content/uploads/2026/09/hero-tower.jpg" srcset="/wp-content/uploads/2026/09/hero-tower-960.jpg 960w, /wp-content/uploads/2026/09/hero-tower.jpg 1920w" sizes="(max-width:768px) 100vw, 114vw" alt="" width="1920" height="1280" loading="eager" fetchpriority="high" decoding="async"></div>
   <div class="container hero-inner">
     <div class="hero-copy">
       <span class="hero-kicker">משפט אזרחי ומסחרי</span>
@@ -257,7 +257,7 @@
       <label for="message">תיאור קצר של הפנייה</label>
       <textarea id="message" name="message" rows="4" maxlength="1200"></textarea>
     </div>
-    <button type="submit" class="btn btn-navy" style="width:100%">שליחת פנייה</button>
+    <button type="submit" class="btn btn-navy btn-block">שליחת פנייה</button>
     <p id="form-status" class="form-status" role="status" aria-live="polite"></p>
     <p class="form-note">הפרטים נשלחים ישירות למשרד ומשמשים ליצירת קשר בלבד, בהתאם ל<a href="privacy.html">מדיניות הפרטיות</a>.</p>
   </form>

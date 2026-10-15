@@ -8,7 +8,7 @@ PREV = '/tmp/prev_dist'
 PORT = 8951
 if os.path.exists(PREV): shutil.rmtree(PREV)
 shutil.copytree(DIST, PREV)
-shutil.copytree(str(ROOT / 'tools' / 'fonts'), PREV + '/fonts')
+shutil.copytree(str(ROOT / 'tools' / 'fonts'), PREV + '/fonts', dirs_exist_ok=True)
 # local fonts instead of Google (blocked from here)
 for root, _, files in os.walk(PREV):
     for f in files:
