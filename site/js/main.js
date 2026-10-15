@@ -44,15 +44,22 @@
     });
   }
 
-  // sub-menu state for assistive tech (open on hover/focus is unchanged - CSS drives it)
+  // sub-menu state for assistive tech; Escape closes it and returns focus to the parent link
   document.querySelectorAll('.has-sub').forEach(function(li){
     var a=li.querySelector(':scope>a'); if(!a)return;
-    function set(v){a.setAttribute('aria-expanded',v?'true':'false');}
+    var suppress=false;
+    function set(v){a.setAttribute('aria-expanded',v?'true':'false');li.classList.toggle('sub-closed',!v);}
     set(false);
-    li.addEventListener('focusin',function(){set(true);});
+    li.addEventListener('focusin',function(){if(suppress){suppress=false;return;}set(true);});
     li.addEventListener('focusout',function(){if(!li.contains(document.activeElement))set(false);});
     li.addEventListener('mouseenter',function(){set(true);});
     li.addEventListener('mouseleave',function(){if(!li.contains(document.activeElement))set(false);});
+    li.addEventListener('keydown',function(e){
+      if(e.key==='Escape'&&a.getAttribute('aria-expanded')==='true'){e.stopPropagation();suppress=(document.activeElement!==a);set(false);a.focus();}
+    });
+    a.addEventListener('keydown',function(e){
+      if(e.key==='ArrowDown'){set(true);var first=li.querySelector('.sub-menu a');if(first){e.preventDefault();first.focus();}}
+    });
   });
 
   if('IntersectionObserver' in window){
@@ -117,15 +124,24 @@
     document.body.classList.add('consent-open');
     function fit(){document.body.style.setProperty('--consent-h',b.offsetHeight+'px');}
     fit();window.addEventListener('resize',fit);
+    function closeBanner(){
+      window.removeEventListener('resize',fit);
+      document.removeEventListener('keydown',onKey);
+      if(b.parentNode){b.parentNode.removeChild(b);}
+      document.body.classList.remove('consent-open');
+      document.body.style.removeProperty('--consent-h');
+      var m=document.getElementById('main');
+      if(m){try{m.focus({preventScroll:true});}catch(e){m.focus();}}
+    }
+    // Escape: no choice is saved, the banner returns on the next page
+    function onKey(e){if(e.key==='Escape'&&document.getElementById('consent-banner')){closeBanner();}}
+    document.addEventListener('keydown',onKey);
     b.addEventListener('click',function(e){
       var v=e.target&&e.target.getAttribute&&e.target.getAttribute('data-consent');
       if(!v)return;
       saveConsent(v);
       if(v==='yes'){loadGA();}else{clearGACookies();}
-      window.removeEventListener('resize',fit);
-      b.parentNode.removeChild(b);
-      document.body.classList.remove('consent-open');
-      document.body.style.removeProperty('--consent-h');
+      closeBanner();
     });
   }
   var consent=readConsent();

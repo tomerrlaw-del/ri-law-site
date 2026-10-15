@@ -55,6 +55,7 @@ h1,h2,h3,h4{font-weight:400;font-synthesis:none}
 .has-sub:hover>a::after{transform:rotate(135deg) translateY(-2px)}
 .main-nav .sub-menu{position:absolute;top:calc(100% + 8px);right:0;display:block;background:#fff;min-width:300px;border:1px solid var(--line);border-radius:2px;box-shadow:var(--shadow-sm);padding:8px;opacity:0;visibility:hidden;transform:translateY(8px);transition:opacity .2s,transform .2s,visibility .2s;list-style:none;z-index:1200}
 .has-sub:hover .sub-menu,.has-sub:focus-within .sub-menu{opacity:1;visibility:visible;transform:translateY(0)}
+@media(min-width:1025px){.has-sub.sub-closed:focus-within .sub-menu{opacity:0;visibility:hidden;transform:translateY(8px)}}
 .main-nav .sub-menu li{width:100%}
 .main-nav .sub-menu a{display:block;padding:9px 14px;border-radius:2px;font-weight:500;color:var(--ink);font-size:.98rem;white-space:nowrap;text-align:right;transition:background .18s,color .18s}
 .main-nav .sub-menu a:hover{background:var(--bg-alt);color:var(--navy)}
@@ -185,7 +186,7 @@ h1,h2,h3,h4{font-weight:400;font-synthesis:none}
 /* footer: column headings as small labels */
 .site-footer{background:var(--navy-deep);color:#b9c6d4;padding:70px 0 0}
 .footer-grid{display:grid;grid-template-columns:1.3fr 1fr 1fr 1.2fr;gap:44px;padding-bottom:50px}
-.site-footer h4{font-family:var(--sans);font-size:.78rem;letter-spacing:1px;font-weight:600;color:var(--gold-2);margin-bottom:16px}
+.site-footer h2{font-family:var(--sans);font-size:.78rem;letter-spacing:1px;font-weight:600;color:var(--gold-2);margin-bottom:16px}
 .site-footer ul{list-style:none}
 .site-footer li{margin-bottom:7px;font-size:.95rem}
 .site-footer a{color:#b9c6d4}
@@ -255,7 +256,7 @@ body.menu-open .float-btns,body.menu-open .acc-widget{display:none}
 .team-card .avatar{display:flex;justify-content:flex-start;align-items:center}
 .team-card .avatar span{font-family:var(--serif);font-size:4rem;line-height:1;color:var(--gold)}
 .team-card .tc-body{padding:24px}
-.team-card h3{font-family:var(--serif);color:var(--navy);font-size:1.55rem;line-height:1.25;margin-bottom:4px}
+.team-card h2{font-family:var(--serif);color:var(--navy);font-size:1.55rem;line-height:1.25;margin-bottom:4px}
 .team-card .role{color:var(--gold-text);font-weight:500;font-size:.84rem;letter-spacing:.5px;margin-bottom:12px}
 .team-card p{color:var(--muted);font-size:.95rem}
 
@@ -312,6 +313,8 @@ body.menu-open .float-btns,body.menu-open .acc-widget{display:none}
 .law-table th,.law-table td{text-align:right;vertical-align:top;padding:10px 12px;border-bottom:1px solid var(--line)}
 .law-table thead th{background:var(--bg-alt);font-weight:700;white-space:nowrap}
 .law-table td:first-child{font-weight:600;color:var(--navy)}
+.law-table tbody th{font-weight:600;color:var(--navy);text-align:right;vertical-align:top;padding:10px 12px;border-bottom:1px solid var(--line);background:transparent}
+.law-table caption{text-align:right;font-weight:600;color:var(--navy);padding:0 0 10px;caption-side:top}
 @media (max-width:600px){.law-table{font-size:.88rem}.law-table th,.law-table td{padding:8px 8px}}
 .link-list{list-style:none;padding:0;margin:14px 0 24px}
 .link-list li{padding:8px 0;border-bottom:1px solid var(--line)}
@@ -325,3 +328,18 @@ body.consent-open .float-btns{bottom:calc(var(--consent-h,0px) + 16px)}
 body.consent-open .site-footer{padding-bottom:var(--consent-h,0px)}
 @media (max-width:600px){.consent-banner{padding:14px 16px}.consent-actions{width:100%}.consent-btn{flex:1}}
 @media (max-width:480px){body.consent-open .acc-widget{bottom:calc(var(--consent-h,0px) + 16px)}}
+/* ---------- נגישות: קישורים בתוך טקסט, יעדי מגע, הפחתת תנועה ---------- */
+.prose a,.faq-body a,.form-note a,.law-table a,.c-info a,.breadcrumbs a,.disclaimer a,.consent-banner a,.side-cta p a,.page-hero p a,.section-head p a,.team-card p a,.cta-band p a{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
+.prose a:hover,.breadcrumbs a:hover{text-decoration-thickness:2px}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important}
+  .main-nav{transition:none}
+}
+@media (max-width:768px){
+  .site-footer li{margin-bottom:0}
+  .site-footer li a,.footer-bottom a{display:inline-flex;align-items:center;min-height:44px}
+  .topbar .tb-item{min-height:44px}
+  .breadcrumbs a,.link-list a{display:inline-block;padding:10px 0}
+  .link-list li{padding:0}
+}
+.nav-toggle{min-width:44px;min-height:44px;padding:8px 9px}
