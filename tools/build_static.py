@@ -181,6 +181,8 @@ def main():
               '/wp-sitemap.xml /sitemap.xml 301', '/wp-sitemap-posts-page-1.xml /sitemap.xml 301', '/sitemap_index.xml /sitemap.xml 301',
               '/category/* /articles/ 301', '/author/* /about 301', '/feed /  301', '/feed/* / 301', '/comments/feed / 301',
               '/wp-admin/* / 301', '/wp-login.php / 301', '/wp-json/* / 301', '/xmlrpc.php / 301',
+              # junk address from Search Console
+              '/e / 301',
               # old WordPress query addresses: forced, because / is a real file
               '/  p=:id  /articles/  301!', '/  page_id=:id  /  301!', '/  s=:q  /articles/  301!', '/  cat=:id  /articles/  301!',
               '/tag/* /articles/ 301', '/page/* /articles/ 301', '/date/* /articles/ 301',
@@ -196,6 +198,12 @@ def main():
         lines.append(f'/{n}/ /{n} 301')
     for n in ARTICLES:
         lines.append(f'/articles/{n}/ /articles/{n} 301')
+    # relative links crawled under a page "folder" (/terms/accessibility.html -> /accessibility.html -> /accessibility).
+    # after the trailing-slash rules, so /terms/ still goes to /terms and not to /
+    lines += ['', '# addresses crawled under a top-level page as if it were a folder']
+    for n in PAGES:
+        if n in ('index', '404', 'articles'): continue
+        lines.append(f'/{n}/* /:splat 301')
     lines += ['', '# .html addresses -> clean addresses (forced: the files exist)']
     for n in PAGES:
         if n in ('index', '404'): continue

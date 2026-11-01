@@ -49,6 +49,7 @@
 /wp-login.php / 301
 /wp-json/* / 301
 /xmlrpc.php / 301
+/e / 301
 /  p=:id  /articles/  301!
 /  page_id=:id  /  301!
 /  s=:q  /articles/  301!
@@ -111,6 +112,27 @@
 /articles/ptsd-disability-rating/ /articles/ptsd-disability-rating 301
 /articles/public-tenders/ /articles/public-tenders 301
 /articles/unlawful-dismissal/ /articles/unlawful-dismissal 301
+
+# addresses crawled under a top-level page as if it were a folder
+/about/* /:splat 301
+/accessibility/* /:splat 301
+/administrative/* /:splat 301
+/ariel-samaria/* /:splat 301
+/contact/* /:splat 301
+/contractor-licensing/* /:splat 301
+/corporate-law/* /:splat 301
+/debt-collection/* /:splat 301
+/defamation/* /:splat 301
+/idf-benefits-calculator/* /:splat 301
+/idf-disabled/* /:splat 301
+/labor-law/* /:splat 301
+/litigation/* /:splat 301
+/practice-areas/* /:splat 301
+/privacy/* /:splat 301
+/real-estate/* /:splat 301
+/team/* /:splat 301
+/terms/* /:splat 301
+/wills-poa/* /:splat 301
 
 # .html addresses -> clean addresses (forced: the files exist)
 /about.html /about 301!

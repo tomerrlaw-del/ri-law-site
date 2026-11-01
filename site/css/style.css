@@ -261,6 +261,9 @@ body.menu-open .float-btns,body.menu-open .acc-widget{display:none}
 
 /* team: placeholder monogram until real photos arrive */
 .team-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:30px}
+.team-intro{margin-bottom:34px}
+.team-outro{margin-top:46px}
+.team-card .tc-body p+p{margin-top:10px}
 .team-card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;text-align:start;transition:border-color .2s}
 .team-card:hover{border-color:var(--gold)}
 .team-card .tc-top{background:var(--bg-alt);padding:44px 24px 36px;border-bottom:1px solid var(--line)}
