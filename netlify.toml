@@ -4,3 +4,10 @@
 
 [build.environment]
   # no build step: dist/ is committed ready to publish
+
+# temporary maintenance mode (same rule as maintenance/_redirects)
+[[redirects]]
+  from = "/*"
+  to = "/"
+  status = 302
+  force = false

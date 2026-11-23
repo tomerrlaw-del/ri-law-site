@@ -1,4 +1,3 @@
 # temporary maintenance mode: every address shows the maintenance page
-# the home page itself is served as is (rewrite, not redirect), so there is no loop
-/  /index.html  200!
-/*  /  302!
+# not forced: existing files (index.html, 404.html) are served as is, so / is never redirected and there is no loop
+/*  /  302
